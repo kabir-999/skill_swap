@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 
 // Import routes
 const userRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // API Documentation
 app.get('/', (req, res) => {
@@ -39,7 +41,9 @@ app.get('/', (req, res) => {
       'GET /api/users/:id': 'Get a specific user profile',
       'POST /api/users': 'Create a new user profile',
       'PUT /api/users/:id': 'Update a user profile',
-      'DELETE /api/users/:id': 'Delete a user profile'
+      'DELETE /api/users/:id': 'Delete a user profile',
+      'POST /api/auth/signup': 'User signup',
+      'POST /api/auth/login': 'User login'
     },
     search: {
       'GET /api/users?skill=javascript': 'Search users by skill',
