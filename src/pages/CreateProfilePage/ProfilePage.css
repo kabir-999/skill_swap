@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&family=Raleway:wght@700&display=swap');
+
+html, body, .profile-bg {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.profile-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #fadcd9 0%, #f7cfc2 60%, #7ec6c7 100%);
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0b7c7c;
+  padding: 10px 18px 10px 14px;
+}
+.logo-area {
+  display: flex;
+  align-items: center;
+}
+.profile-logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fadcd9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.logo-icon {
+  font-size: 2.2rem;
+  font-family: 'Raleway', Arial, sans-serif;
+  font-weight: 700;
+  color: #0b7c7c;
+  margin: 2px 0;
+}
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.save-btn {
+  color: #1bb81b;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-right: 8px;
+  cursor: pointer;
+  font-family: 'Raleway', Arial, sans-serif;
+}
+.discard-btn {
+  color: #e23b3b;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-right: 18px;
+  cursor: pointer;
+  font-family: 'Raleway', Arial, sans-serif;
+}
+.nav-link {
+  color: #fff;
+  text-decoration: underline;
+  font-size: 0.95rem;
+  margin-right: 12px;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+}
+.profile-avatar-placeholder {
+  width: 38px;
+  height: 32px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.profile-main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 0 40px;
+}
+
+.profile-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr 1fr;
+  gap: 24px 64px;
+  max-width: 1400px;
+  margin-top: 0;
+  width: 100%;
+  align-items: start;
+}
+
+.profile-form-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-form-left .profile-field.name {
+  margin-top: 32px;
+}
+
+.profile-form-right {
+  gap: 38px;
+}
+
+.profile-field.name { grid-column: 1; grid-row: 1; }
+.profile-field.location { grid-column: 1; grid-row: 2; }
+.profile-field.availability { grid-column: 1; grid-row: 3; }
+.profile-field.profile { grid-column: 1; grid-row: 4; }
+
+.profile-avatar-big { grid-column: 2; grid-row: 1; margin-top: 0; }
+.profile-field-right.skills-offered { grid-column: 2; grid-row: 2; margin-top: 0 !important; }
+.profile-field-right.skills-wanted { grid-column: 2; grid-row: 3; margin-top: 0 !important; }
+
+.profile-avatar-big {
+  width: 140px;
+  height: 140px;
+  margin-bottom: 8px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  margin-right: 32px;
+  background: #fff;
+  border: 3px solid #111;
+  position: relative;
+  padding: 0;
+  margin-top: 0;
+}
+
+.profile-field-right.skills-offered,
+.profile-field-right.skills-wanted {
+  margin-top: 0 !important;
+}
+
+.profile-field, .profile-field-right {
+  min-width: 260px;
+  max-width: 320px;
+  padding: 18px 24px 12px 24px;
+  margin-bottom: 0;
+}
+
+.profile-field-right {
+  margin-top: 0;
+  align-items: flex-start;
+}
+
+.profile-field {
+  background: #6ec6c6;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  padding: 8px 12px 6px 12px;
+  margin-bottom: 0;
+  min-width: 180px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  align-items: flex-start;
+}
+
+.profile-field label {
+  font-size: 1rem;
+  font-family: 'Raleway', Arial, sans-serif;
+  color: #111;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.profile-input-line {
+  border-bottom: 2px solid #222;
+  color: #222;
+  font-size: 0.9rem;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+  min-width: 90px;
+  letter-spacing: 2px;
+}
+.profile-skills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.profile-skill-tag {
+  display: inline-block;
+  width: 90px;
+  height: 36px;
+  background: #f5fafd;
+  border-radius: 50px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  font-size: 1.05rem;
+  color: #222;
+  text-align: center;
+  line-height: 36px;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.profile-avatar-img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  background: #fff;
+  border: none;
+}
+.profile-form-left .profile-field:not(:first-child),
+.profile-form-right .profile-field:not(:first-child) {
+  margin-top: 32px;
+}
+@media (max-width: 900px) {
+  .profile-form-grid {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  .profile-form-left, .profile-form-right {
+    align-items: center;
+  }
+}
+@media (max-width: 600px) {
+  .profile-main {
+    padding: 0 4px;
+  }
+  .profile-field, .profile-field-right {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 12px 8px 8px 12px;
+  }
+  .profile-avatar-big {
+    width: 120px;
+    height: 120px;
+  }
+} 
+
+.profile-value-box {
+  background: #eaf6fb;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 1.05rem;
+  color: #222;
+  margin-top: 4px;
+  min-width: 120px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  display: inline-block;
+} 

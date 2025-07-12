@@ -22,46 +22,8 @@ function Auth({ onAuthSuccess, onNavigateToProfile }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setMessage('');
-
-    try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
-      const requestData = isLogin 
-        ? { email: formData.email, password: formData.password, isAdmin: formData.isAdmin }
-        : { email: formData.email, password: formData.password, confirmPassword: formData.confirmPassword };
-
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setMessage(data.message);
-        // Store user data in localStorage
-        localStorage.setItem('user', JSON.stringify(data.user));
-        
-        if (isLogin) {
-          // Navigate to home page after login
-          onAuthSuccess();
-        } else {
-          // Navigate to profile page after signup
-          onNavigateToProfile();
-        }
-      } else {
-        setMessage(data.message || 'An error occurred');
-      }
-    } catch (error) {
-      console.error('Auth error:', error);
-      setMessage('Network error. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // For now, just navigate to profile page on submit
+    if (onAuthSuccess) onAuthSuccess();
   };
 
   const toggleMode = () => {
