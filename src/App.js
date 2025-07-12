@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Auth from './pages/LoginPage/Auth';
 import HomePage from './pages/HomePage/HomePage';
 import UserProfileForm from './pages/CreateProfilePage/UserProfileForm';
 import RequestPage from './pages/RequestPage/RequestPage';
 import ViewProfilePage from './pages/ViewProfilePage/ViewProfilePage';
+import SwapRequestPage from './pages/RequestPage/SwapRequestPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/profile" element={<UserProfileForm />} />
       <Route path="/request" element={<RequestPage />} />
       <Route path='/view-profile' element={<ViewProfilePage />} />
+      <Route path="/request" element={<SwapRequestPage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
