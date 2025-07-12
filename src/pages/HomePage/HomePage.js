@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
-// Removed useNavigate and react-router-dom import for now
 
 function HomePage() {
   const [users, setUsers] = useState([]);
@@ -10,7 +10,7 @@ function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const usersPerPage = 5;
-  // Removed useNavigate for now
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch users from backend
@@ -18,6 +18,42 @@ function HomePage() {
       .then(res => res.json())
       .then(data => {
         if (data.success) setUsers(data.data);
+      })
+      .catch(error => {
+        console.log('Backend not running, using fallback data');
+        // Fallback data when backend is not available
+        setUsers([
+          {
+            _id: 1,
+            name: 'John Doe',
+            skillsOffered: 'JavaScript, React, Node.js',
+            skillsWanted: 'Python, Machine Learning',
+          },
+          {
+            _id: 2,
+            name: 'Jane Smith',
+            skillsOffered: 'Python, Data Analysis',
+            skillsWanted: 'Web Development, UI/UX',
+          },
+          {
+            _id: 3,
+            name: 'Mike Johnson',
+            skillsOffered: 'Graphic Design, Photoshop',
+            skillsWanted: 'JavaScript, Frontend Development',
+          },
+          {
+            _id: 4,
+            name: 'Sarah Wilson',
+            skillsOffered: 'Content Writing, SEO',
+            skillsWanted: 'Digital Marketing, Social Media',
+          },
+          {
+            _id: 5,
+            name: 'Alex Brown',
+            skillsOffered: 'Mobile Development, Flutter',
+            skillsWanted: 'Backend Development, Database Design',
+          }
+        ]);
       });
   }, []);
 
@@ -118,7 +154,7 @@ function HomePage() {
             </>
           )}
         </div>
-      </header>
+      </div>
 
       {/* Hero Section */}
       <section className="ss-hero">

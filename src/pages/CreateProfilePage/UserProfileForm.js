@@ -1,206 +1,107 @@
 import React, { useState } from 'react';
-import '../../App.css';
+import './UserProfileForm.css';
 
 function UserProfileForm({ onComplete }) {
   const [formData, setFormData] = useState({
-    name: '',
-    location: '',
+    name: 'Amelia Pond',
+    email: 'amelia.pond@example.com',
+    bio: 'Passionate about watercolor painting and looking to learn guitar. I can teach you painting basics in exchange for some chords!',
     profilePhoto: null,
-    skillsOffered: '',
-    skillsWanted: '',
-    availability: '',
-    isPublic: true
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState('');
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: files[0]
-    }));
+    setFormData(prev => ({ ...prev, profilePhoto: e.target.files[0] }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setMessage('');
-
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('location', formData.location);
-      formDataToSend.append('skillsOffered', formData.skillsOffered);
-      formDataToSend.append('skillsWanted', formData.skillsWanted);
-      formDataToSend.append('availability', formData.availability);
-      formDataToSend.append('isPublic', formData.isPublic);
-      
-      if (formData.profilePhoto) {
-        formDataToSend.append('profilePhoto', formData.profilePhoto);
-      }
-
-      const response = await fetch('http://localhost:5000/api/users', {
-        method: 'POST',
-        body: formDataToSend
-      });
-
-      if (response.ok) {
-        setMessage('Profile created successfully! 🎉');
-        setTimeout(() => {
-          onComplete();
-        }, 2000);
-      } else {
-        const errorData = await response.json();
-        setMessage(`Error: ${errorData.message || 'Failed to create profile'}`);
-      }
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
-    } finally {
+    setTimeout(() => {
       setIsSubmitting(false);
-    }
+      if (onComplete) onComplete();
+    }, 1000);
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Skill Swap Platform</h1>
-        <p>Complete your profile to get started</p>
-      </header>
-
-      <main className="App-main">
-        <div className="form-container">
-          <h2>Create Your Profile</h2>
-          
-          {message && (
-            <div className={`message ${message.includes('Error') ? 'error' : 'success'}`}>
-              {message}
+    <div className="settings-root">
+      <aside className="settings-sidebar">
+        <div className="settings-logo">SkillSwap</div>
+        <nav className="settings-nav">
+          <button className="settings-nav-item active">Profile</button>
+          <button className="settings-nav-item">Notifications</button>
+          <button className="settings-nav-item delete">LogOut</button>
+        </nav>
+      </aside>
+      <main className="settings-main">
+        <h1 className="settings-title">Settings</h1>
+        <p className="settings-desc">Manage your account settings and preferences.</p>
+        <form className="profile-info-card" onSubmit={handleSubmit}>
+          <h2 className="profile-info-title">Profile Information</h2>
+          <div className="profile-info-row">
+            <div className="profile-avatar-section">
+              <div className="profile-avatar">
+                {/* Placeholder avatar */}
+                <img src="https://ui-avatars.com/api/?name=Amelia+Pond&background=ececec&color=6bb7b7&size=96" alt="Profile" />
+              </div>
+              <label className="profile-change-pic-btn">
+                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileChange} />
+                Change Picture
+              </label>
+              <div className="profile-avatar-hint">JPG, GIF or PNG. 1MB max.</div>
             </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="profile-form">
-            <div className="form-section">
-              <h3>Basic Information</h3>
-              
-              <div className="form-group">
-                <label htmlFor="name">Name *</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter your full name"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="location">Location (Optional)</label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  placeholder="City, State, or Country"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="profilePhoto">Profile Photo (Optional)</label>
-                <input
-                  type="file"
-                  id="profilePhoto"
-                  name="profilePhoto"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h3>Skills</h3>
-              
-              <div className="form-group">
-                <label htmlFor="skillsOffered">Skills I Can Offer *</label>
-                <textarea
-                  id="skillsOffered"
-                  name="skillsOffered"
-                  value={formData.skillsOffered}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g., Web Development, Cooking, Spanish, Guitar, Photography"
-                  rows="3"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="skillsWanted">Skills I Want to Learn *</label>
-                <textarea
-                  id="skillsWanted"
-                  name="skillsWanted"
-                  value={formData.skillsWanted}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g., Graphic Design, French, Piano, Yoga, Coding"
-                  rows="3"
-                />
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h3>Availability</h3>
-              
-              <div className="form-group">
-                <label htmlFor="availability">When are you available? *</label>
-                <textarea
-                  id="availability"
-                  name="availability"
-                  value={formData.availability}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g., Weekends, Evenings after 6 PM, Tuesday/Thursday mornings"
-                  rows="2"
-                />
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h3>Privacy Settings</h3>
-              
-              <div className="form-group checkbox-group">
-                <label className="checkbox-label">
+            <div className="profile-fields">
+              <div className="profile-field-row">
+                <div className="profile-field-col">
+                  <label htmlFor="name">Name</label>
                   <input
-                    type="checkbox"
-                    name="isPublic"
-                    checked={formData.isPublic}
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
                     onChange={handleInputChange}
+                    className="profile-input"
                   />
-                  <span className="checkmark"></span>
-                  Make my profile public (others can see and contact me)
-                </label>
+                </div>
+                <div className="profile-field-col">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    disabled
+                    className="profile-input"
+                  />
+                </div>
+              </div>
+              <div className="profile-field-row">
+                <div className="profile-field-col" style={{ width: '100%' }}>
+                  <label htmlFor="bio">Bio</label>
+                  <textarea
+                    id="bio"
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleInputChange}
+                    className="profile-input"
+                    rows={3}
+                  />
+                </div>
               </div>
             </div>
-
-            <button 
-              type="submit" 
-              className="submit-btn" 
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Creating Profile...' : 'Create Profile'}
+          </div>
+          <div className="profile-info-actions">
+            <button type="button" className="profile-cancel-btn" disabled={isSubmitting}>Cancel</button>
+            <button type="submit" className="profile-update-btn" disabled={isSubmitting}>
+              {isSubmitting ? 'Updating...' : 'Update Profile'}
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </main>
     </div>
   );
