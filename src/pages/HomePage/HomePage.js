@@ -1,61 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
-const usersData = [
-  {
-    id: 1,
-    name: 'User No. 1',
-    skillsOffered: 'JavaScript, SQL, Python',
-    skillsAccepted: 'JavaScript, SQL, Python',
-  },
-  {
-    id: 2,
-    name: 'User No. 2',
-    skillsOffered: 'JavaScript, SQL, Python',
-    skillsAccepted: 'JavaScript, SQL, Python',
-  },
-  {
-    id: 3,
-    name: 'User No. 2',
-    skillsOffered: 'JavaScript, SQL, Python',
-    skillsAccepted: 'JavaScript, SQL, Python',
-  },
-  {
-    id: 4,
-    name: 'User No. 2',
-    skillsOffered: 'JavaScript, SQL, Python',
-    skillsAccepted: 'JavaScript, SQL, Python',
-  },
-  {
-    id: 5,
-    name: 'User No. 2',
-    skillsOffered: 'JavaScript, SQL, Python',
-    skillsAccepted: 'JavaScript, SQL, Python',
-  },
-  {
-    id: 6,
-    name: 'User No. 2',
-    skillsOffered: 'JavaScript, SQL, Python',
-    skillsAccepted: 'JavaScript, SQL, Python',
-  },
-];
-
-function HomePage({ onLoginClick, isLoggedIn, onLogout }) {
+function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('');
   const [page, setPage] = useState(1);
   const usersPerPage = 5;
   const navigate = useNavigate();
 
-  const filteredUsers = usersData.filter(user =>
-    user.name.toLowerCase().includes(search.toLowerCase()) ||
-    user.skillsOffered.toLowerCase().includes(search.toLowerCase()) ||
-    user.skillsAccepted.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+    // Fetch users from backend
+    fetch('http://localhost:5000/api/users')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setUsers(data.data);
+      });
+  }, []);
+
+  const filteredUsers = users.filter(user =>
+    (user.name?.toLowerCase().includes(search.toLowerCase()) ||
+      user.skillsOffered?.toLowerCase().includes(search.toLowerCase()) ||
+      user.skillsWanted?.toLowerCase().includes(search.toLowerCase()))
   );
 
   const paginatedUsers = filteredUsers.slice((page - 1) * usersPerPage, page * usersPerPage);
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const handleRequest = (user) => {
+    if (!isLoggedIn) {
+      onLoginClick();
+    } else {
+      // TODO: Implement request logic for logged-in users
+      alert('Request sent to ' + user.name);
+    }
+  };
 
   return (
     <div className="homepage-container">
@@ -104,8 +84,8 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout }) {
           {paginatedUsers.map(user => (
             <div
               className="userlist-card clickable"
-              key={user.id}
-              onClick={() => navigate('/view-profile')}
+              key={user._id}
+              onClick={() => isLoggedIn ? onRequestUser(user) : onLoginClick()}
               style={{ cursor: 'pointer' }}
             >
               <div className="userlist-avatar" />
@@ -113,10 +93,10 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout }) {
                 <div className="userlist-name">{user.name}</div>
                 <div className="userlist-skills">
                   <span>Skills Offered: {user.skillsOffered}</span><br />
-                  <span>Skills Accepted: {user.skillsAccepted}</span>
+                  <span>Skills Accepted: {user.skillsWanted}</span>
                 </div>
               </div>
-              <button className="userlist-request">Request</button>
+              <button className="userlist-request" onClick={e => { e.stopPropagation(); handleRequest(user); }}>Request</button>
             </div>
           ))}
         </div>

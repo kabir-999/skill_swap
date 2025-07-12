@@ -3,11 +3,13 @@ import './App.css';
 import Auth from './pages/LoginPage/Auth';
 import HomePage from './pages/HomePage/HomePage';
 import UserProfileForm from './pages/CreateProfilePage/UserProfileForm';
+import RequestPage from './pages/RequestPage/RequestPage';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'auth', 'profile'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'auth', 'profile', 'request'
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [, setUser] = useState(null);
+  const [requestUser, setRequestUser] = useState(null);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -46,10 +48,15 @@ function App() {
     setCurrentPage('auth');
   };
 
+  const handleRequestUser = (user) => {
+    setRequestUser(user);
+    setCurrentPage('request');
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage onLoginClick={handleShowLogin} onLogout={handleLogout} isLoggedIn={isLoggedIn} />;
+        return <HomePage onLoginClick={handleShowLogin} onLogout={handleLogout} isLoggedIn={isLoggedIn} onRequestUser={handleRequestUser} />;
       case 'auth':
         return (
           <Auth 
@@ -59,8 +66,10 @@ function App() {
         );
       case 'profile':
         return <UserProfileForm onComplete={handleProfileComplete} />;
+      case 'request':
+        return <RequestPage user={requestUser} />;
       default:
-        return <HomePage onLoginClick={handleShowLogin} onLogout={handleLogout} isLoggedIn={isLoggedIn} />;
+        return <HomePage onLoginClick={handleShowLogin} onLogout={handleLogout} isLoggedIn={isLoggedIn} onRequestUser={handleRequestUser} />;
     }
   };
 
