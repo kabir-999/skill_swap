@@ -22,8 +22,57 @@ function Auth({ onAuthSuccess, onNavigateToProfile }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // For now, just navigate to profile page on submit
-    if (onAuthSuccess) onAuthSuccess();
+    setIsSubmitting(true);
+    setMessage('');
+    try {
+      if (isLogin) {
+        // Login
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            isAdmin: formData.isAdmin
+          })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('user', JSON.stringify(data.user || { email: formData.email }));
+          setMessage('Login successful!');
+          if (onAuthSuccess) onAuthSuccess();
+        } else {
+          setMessage(data.message || 'Login failed');
+        }
+      } else {
+        // Signup
+        if (formData.password !== formData.confirmPassword) {
+          setMessage('Passwords do not match');
+          setIsSubmitting(false);
+          return;
+        }
+        const response = await fetch('http://localhost:5000/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword
+          })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setMessage('Signup successful! Please complete your profile.');
+          if (onNavigateToProfile) onNavigateToProfile();
+        } else {
+          setMessage(data.message || 'Signup failed');
+        }
+      }
+    } catch (error) {
+      setMessage('Error: ' + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleMode = () => {

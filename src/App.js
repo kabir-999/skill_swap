@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Auth from './pages/Auth';
-import Home from './pages/Home';
-import UserProfileForm from './pages/UserProfileForm';
+import Auth from './pages/LoginPage/Auth';
+import HomePage from './pages/HomePage/HomePage';
+import UserProfileForm from './pages/CreateProfilePage/UserProfileForm';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('auth'); // 'auth', 'home', 'profile'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'auth', 'profile'
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [, setUser] = useState(null);
 
   useEffect(() => {
@@ -13,6 +14,7 @@ function App() {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
+      setIsLoggedIn(true);
       setCurrentPage('home');
     }
   }, []);
@@ -20,6 +22,7 @@ function App() {
   const handleAuthSuccess = () => {
     const savedUser = localStorage.getItem('user');
     setUser(JSON.parse(savedUser));
+    setIsLoggedIn(true);
     setCurrentPage('home');
   };
 
@@ -30,15 +33,23 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('user');
     setUser(null);
-    setCurrentPage('auth');
+    setIsLoggedIn(false);
+    setCurrentPage('home');
   };
 
   const handleProfileComplete = () => {
     setCurrentPage('home');
+    setIsLoggedIn(true);
+  };
+
+  const handleShowLogin = () => {
+    setCurrentPage('auth');
   };
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'home':
+        return <HomePage onLoginClick={handleShowLogin} onLogout={handleLogout} isLoggedIn={isLoggedIn} />;
       case 'auth':
         return (
           <Auth 
@@ -46,26 +57,17 @@ function App() {
             onNavigateToProfile={handleNavigateToProfile}
           />
         );
-      case 'home':
-        return <Home onLogout={handleLogout} />;
       case 'profile':
         return <UserProfileForm onComplete={handleProfileComplete} />;
       default:
-        return (
-          <Auth 
-            onAuthSuccess={handleAuthSuccess}
-            onNavigateToProfile={handleNavigateToProfile}
-          />
-        );
+        return <HomePage onLoginClick={handleShowLogin} onLogout={handleLogout} isLoggedIn={isLoggedIn} />;
     }
   };
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/view-profile" element={<ViewProfilePage />} />
-      <Route path="/request" element={<RequestPage />} />
-    </Routes>
+    <div className="App">
+      {renderPage()}
+    </div>
   );
 }
 
