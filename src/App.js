@@ -4,6 +4,7 @@ import Auth from './pages/LoginPage/Auth';
 import HomePage from './pages/HomePage/HomePage';
 import UserProfileForm from './pages/CreateProfilePage/UserProfileForm';
 import RequestPage from './pages/RequestPage/RequestPage';
+import ViewProfilePage from './pages/ViewProfilePage/ViewProfilePage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/signup" element={<Auth isSignup={true} />} />
       <Route path="/profile" element={<UserProfileForm />} />
       <Route path="/request" element={<RequestPage />} />
+      <Route path='/view-profile' element={<ViewProfilePage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

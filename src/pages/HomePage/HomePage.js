@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
-function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
+function HomePage() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('');
   const [page, setPage] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const usersPerPage = 5;
   const navigate = useNavigate();
 
@@ -19,8 +21,67 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
       });
   }, []);
 
-  // Check if user is logged in
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  useEffect(() => {
+    // Check if user is already logged in
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      const userData = JSON.parse(savedUser);
+      setUser(userData);
+      setIsLoggedIn(true);
+    } else {
+      setUser(null);
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  // Listen for login/logout changes in localStorage
+  useEffect(() => {
+    const handleStorage = () => {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+        setIsLoggedIn(true);
+      } else {
+        setUser(null);
+        setIsLoggedIn(false);
+      }
+    };
+
+    // Listen for storage events (cross-tab)
+    window.addEventListener('storage', handleStorage);
+    
+    // Listen for custom login/logout events (same tab)
+    const handleLoginEvent = () => {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+        setIsLoggedIn(true);
+      }
+    };
+
+    const handleLogoutEvent = () => {
+      setUser(null);
+      setIsLoggedIn(false);
+    };
+
+    window.addEventListener('userLogin', handleLoginEvent);
+    window.addEventListener('userLogout', handleLogoutEvent);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('userLogin', handleLoginEvent);
+      window.removeEventListener('userLogout', handleLogoutEvent);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    // Dispatch custom event for same-tab logout detection
+    window.dispatchEvent(new Event('userLogout'));
+    setUser(null);
+    setIsLoggedIn(false);
+    navigate('/');
+  };
 
   // Filter users based on search (live search)
   const filteredUsers = users.filter(user =>
@@ -34,15 +95,6 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
 
   // Only show up to 4 users in the featured section
   const featuredUsers = paginatedUsers.slice(0, 4);
-
-  const handleRequest = (user) => {
-    if (!isLoggedIn) {
-      onLoginClick();
-    } else {
-      // TODO: Implement request logic for logged-in users
-      alert('Request sent to ' + user.name);
-    }
-  };
 
   return (
     <div className="ss-home-root">
@@ -58,10 +110,17 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
           <a href="#about">About Us</a>
         </nav>
         <div className="ss-navbar-actions">
-          {!isLoggedIn && <button className="ss-login-btn" onClick={() => navigate('/login')}>Log In</button>}
-          {!isLoggedIn && <button className="ss-signup-btn" onClick={() => navigate('/signup')}>Sign Up</button>}
-          {isLoggedIn && <button className="ss-logout-btn" onClick={onLogout}>Logout</button>}
-          {user && user.name && <div className="ss-navbar-username">{user.name}</div>}
+          {!isLoggedIn ? (
+            <>
+              <button className="ss-login-btn" onClick={() => navigate('/login')}>Log In</button>
+              <button className="ss-signup-btn" onClick={() => navigate('/signup')}>Sign Up</button>
+            </>
+          ) : (
+            <>
+              {user && user.name && <div className="ss-navbar-username">{user.name}</div>}
+              <button className="ss-logout-btn" onClick={handleLogout}>Logout</button>
+            </>
+          )}
         </div>
       </header>
 
@@ -97,7 +156,13 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
             <div
               className="ss-featured-card"
               key={user._id}
-              onClick={() => navigate('/view-profile')}
+              onClick={() => {
+                if (isLoggedIn) {
+                  navigate('/view-profile');
+                } else {
+                  navigate('/login');
+                }
+              }}
               style={{ cursor: 'pointer' }}
             >
               <div className="ss-featured-card-img">
@@ -111,7 +176,11 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
                   className="ss-featured-learn-btn"
                   onClick={e => {
                     e.stopPropagation();
-                    navigate('/request');
+                    if (isLoggedIn) {
+                      navigate('/request');
+                    } else {
+                      navigate('/login');
+                    }
                   }}
                 >
                   Request

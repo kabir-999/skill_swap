@@ -1,83 +1,109 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './ViewProfilePage.css';
 import { useNavigate } from 'react-router-dom';
 
-function useScrollFadeIn() {
-  const ref = useRef();
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          node.classList.add('in-view');
-          observer.unobserve(node);
-        }
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-  return ref;
-}
+const profile = {
+  name: 'Sophia Bennett',
+  title: 'Software Engineer | San Francisco',
+  status: 'Available for swaps',
+  about:
+    "I'm a software engineer with 5 years of experience, specializing in web development. I'm passionate about learning new technologies and sharing my knowledge with others.",
+  avatar: '/user.jpg',
+};
 
-const skillsOffered = ['Python', 'JavaScript', 'Figma'];
-const skillsAccepted = ['HTML', 'CSS', 'Mummy'];
+const skillsOffered = [
+  {
+    name: 'Web Development',
+    proficiency: 'Advanced',
+    description:
+      'I can help you build responsive and interactive web applications using React, Node.js, and Express.',
+  },
+  {
+    name: 'Data Structures & Algorithms',
+    proficiency: 'Intermediate',
+    description:
+      'I can teach you the fundamentals of data structures and algorithms, and help you prepare for technical interviews.',
+  },
+];
+
+const skillsWanted = [
+  {
+    name: 'UI/UX Design',
+    proficiency: 'Beginner',
+    description:
+      'I want to learn how to create stunning visual designs for web and mobile applications.',
+  },
+  {
+    name: 'Digital Marketing',
+    proficiency: 'Beginner',
+    description:
+      'I\'m interested in learning how to create engaging and effective marketing campaigns.',
+  },
+];
 
 function ViewProfilePage() {
-  const mainRef = useScrollFadeIn();
-  const skillsRef = useScrollFadeIn();
-  const ratingRef = useScrollFadeIn();
   const navigate = useNavigate();
 
   return (
-    <div className="profilepage-container">
-      <header className="profile-navbar">
-        <img src="/logo.jpg" alt="Logo" className="navbar-logo-img" />
-        <nav className="profile-navlinks">
-          <a href="#swap">Swap Request</a>
-          <a href="#home">Home</a>
-        </nav>
-        <div className="profile-avatar-placeholder" />
+    <div className="vsp-root">
+      {/* Header */}
+      <header className="vsp-navbar">
+        <div className="vsp-navbar-left">
+          <img src="/logo.jpg" alt="SkillSwap Logo" className="vsp-navbar-logo" />
+          <span className="vsp-navbar-title">SkillSwap</span>
+        </div>
+        <div className="vsp-navbar-avatar">
+          <img src={profile.avatar} alt="Profile" />
+        </div>
       </header>
-      <main className="profile-main fade-in-up" ref={mainRef}>
-        <div className="profile-header-row">
-          <img src="/user.jpg" alt="Profile" className="profile-picture" />
-          <div className="profile-header-content">
-            <h2 className="profile-username">Marc Demo</h2>
+
+      {/* Main Content */}
+      <div className="vsp-main-content">
+        {/* Left Profile Card */}
+        <aside className="vsp-profile-card">
+          <div className="vsp-profile-img-wrapper">
+            <img src={profile.avatar} alt="Profile" className="vsp-profile-img" />
           </div>
-          <button className="profile-request-btn" onClick={() => navigate('/request')}>Request</button>
-        </div>
-        <div className="profile-skills-row fade-in-up" ref={skillsRef}>
-          <div className="profile-skills-card">
-            <div className="profile-skills-title">Skills Offered</div>
-            <ul className="profile-skills-list-bullets">
+          <h2 className="vsp-profile-name">{profile.name}</h2>
+          <div className="vsp-profile-title">{profile.title}</div>
+          <div className="vsp-profile-status">{profile.status}</div>
+          <button className="vsp-profile-swap-btn" onClick={() => navigate('/request')}>Start a Swap</button>
+          <div className="vsp-profile-about-title">About Me</div>
+          <div className="vsp-profile-about">{profile.about}</div>
+        </aside>
+
+        {/* Right Main Section */}
+        <section className="vsp-skills-section">
+          <div className="vsp-skills-group">
+            <h3 className="vsp-skills-header">Skills I Offer</h3>
+            <div className="vsp-skills-cards-row">
               {skillsOffered.map((skill, idx) => (
-                <li key={idx}>{skill}</li>
+                <div className="vsp-skill-card" key={idx}>
+                  <div className="vsp-skill-title">{skill.name}</div>
+                  <div className="vsp-skill-proficiency vsp-skill-proficiency-offer">
+                    Proficiency: {skill.proficiency}
+                  </div>
+                  <div className="vsp-skill-desc">{skill.description}</div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
-          <div className="profile-skills-card">
-            <div className="profile-skills-title">Skills Wanted</div>
-            <ul className="profile-skills-list-bullets">
-              {skillsAccepted.map((skill, idx) => (
-                <li key={idx}>{skill}</li>
+          <div className="vsp-skills-group">
+            <h3 className="vsp-skills-header">Skills I Want</h3>
+            <div className="vsp-skills-cards-row">
+              {skillsWanted.map((skill, idx) => (
+                <div className="vsp-skill-card vsp-skill-card-want" key={idx}>
+                  <div className="vsp-skill-title">{skill.name}</div>
+                  <div className="vsp-skill-proficiency vsp-skill-proficiency-want">
+                    Desired Proficiency: {skill.proficiency}
+                  </div>
+                  <div className="vsp-skill-desc">{skill.description}</div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
-        </div>
-        <div className="profile-rating-card fade-in-up" ref={ratingRef}>
-          <div className="profile-rating-title">Rating & Feedback</div>
-          <div className="profile-rating-stars">
-            <span className="star filled">★</span>
-            <span className="star filled">★</span>
-            <span className="star filled">★</span>
-            <span className="star">★</span>
-            <span className="star">★</span>
-          </div>
-        </div>
-      </main>
+        </section>
+      </div>
     </div>
   );
 }

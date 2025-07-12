@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Auth.css';
+import { useNavigate } from 'react-router-dom';
 
-function Auth() {
-  const [isSignup, setIsSignup] = useState(false);
+function Auth({ isSignup: initialIsSignup = false }) {
+  const [isSignup, setIsSignup] = useState(initialIsSignup);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,6 +12,12 @@ function Auth() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  // Update isSignup state when prop changes
+  useEffect(() => {
+    setIsSignup(initialIsSignup);
+  }, [initialIsSignup]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,13 +30,53 @@ function Auth() {
     setMessage('');
     try {
       if (isSignup) {
-        // Signup logic here
-        // Example: await fetch('/api/signup', ...)
-        setMessage('Signup successful!');
+        // Signup logic
+        const response = await fetch('http://localhost:5000/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            name: formData.name,
+            username: formData.username
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          setMessage('Signup successful! Redirecting...');
+          setTimeout(() => navigate('/'), 1500);
+        } else {
+          setMessage(data.message || 'Signup failed');
+        }
       } else {
-        // Login logic here
-        // Example: await fetch('/api/login', ...)
-        setMessage('Login successful!');
+        // Login logic
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          // Store user data in localStorage
+          localStorage.setItem('user', JSON.stringify(data.user));
+          // Dispatch custom event for same-tab login detection
+          window.dispatchEvent(new Event('userLogin'));
+          setMessage('Login successful! Redirecting...');
+          setTimeout(() => navigate('/'), 1500);
+        } else {
+          setMessage(data.message || 'Login failed');
+        }
       }
     } catch (error) {
       setMessage('Error: ' + error.message);

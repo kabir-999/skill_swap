@@ -1,254 +1,246 @@
-.profilepage-container {
+/* Root and layout */
+.vsp-root {
   min-height: 100vh;
-  background: #edf6f9;
+  background: #f4fafd;
   font-family: 'Raleway', sans-serif;
 }
 
-.navbar-logo-img {
-  height: 48px;
-  width: auto;
-  margin-right: 1.5rem;
+.vsp-navbar {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 2.5rem;
+  box-sizing: border-box;
+  border-bottom: 1.5px solid #e6e6e6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.vsp-navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.vsp-navbar-logo {
+  height: 38px;
+  width: 38px;
   border-radius: 8px;
   object-fit: contain;
   background: #fff;
+  margin-right: 0.7rem;
 }
-
-.profile-navbar {
-  width: 100%;
-  background: #006d77;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0.7rem 2rem 0.7rem 1.2rem;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 0 0 0 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  gap: 2rem;
-}
-
-.profile-logo {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.7rem;
-}
-.profile-logo-circle {
-  width: 54px;
-  height: 54px;
-  background: #ffddd2;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #006d77;
-  margin-top: 0.2rem;
-}
-.profile-logo-text {
-  font-size: 2rem;
+.vsp-navbar-title {
+  font-size: 1.5rem;
   color: #006d77;
   font-weight: 800;
   font-family: 'Raleway', sans-serif;
 }
-.profile-logo-label {
-  font-size: 0.8rem;
-  color: #fff;
-  font-family: 'Raleway', sans-serif;
-  line-height: 1.1;
-  margin-top: 0.2rem;
-}
-
-.profile-navlinks {
+.vsp-navbar-links {
   display: flex;
   gap: 2.2rem;
 }
-.profile-navlinks a {
-  color: #edf6f9;
-  text-decoration: underline;
-  font-size: 1.15rem;
+.vsp-navbar-links a {
+  color: #006d77;
+  text-decoration: none;
+  font-size: 1.1rem;
   font-family: 'Raleway', sans-serif;
-  font-weight: 400;
-  transition: color 0.2s;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
 }
-.profile-navlinks a:hover {
-  color: #e29578;
+.vsp-navbar-links a:hover {
+  background: #83c5be33;
+  color: #004f56;
+}
+.vsp-navbar-avatar img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #83c5be;
+  background: #fff;
 }
 
-.profile-avatar-placeholder {
-  width: 70px;
-  height: 48px;
-  background: #83c5be;
-  border-radius: 12px;
+.vsp-main-content {
+  display: flex;
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 2.5rem auto 0 auto;
+  padding: 0 2rem;
 }
 
-.profile-main {
-  padding: 2rem 2.5rem 2.5rem 2.5rem;
+/* Left Profile Card */
+.vsp-profile-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 2.2rem 2rem 2rem 2rem;
+  min-width: 320px;
+  max-width: 340px;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  align-items: center;
+  margin-bottom: 2rem;
 }
-
-.profile-request-btn {
-  background: #e29578;
+.vsp-profile-img-wrapper {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #83c5be;
+  margin-bottom: 1.2rem;
+}
+.vsp-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+.vsp-profile-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+.vsp-profile-title {
+  font-size: 1.05rem;
+  color: #5eaaa8;
+  margin-bottom: 0.7rem;
+  text-align: center;
+}
+.vsp-profile-status {
+  background: #ffe6e6;
+  color: #e29578;
+  font-size: 0.98rem;
+  border-radius: 12px;
+  padding: 0.3rem 1.1rem;
+  margin-bottom: 1.1rem;
+  font-weight: 600;
+}
+.vsp-profile-swap-btn {
+  background: #006d77;
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 0.7rem 2.2rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-family: 'Raleway', sans-serif;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   transition: background 0.2s;
 }
-.profile-request-btn:hover {
-  background: #006d77;
+.vsp-profile-swap-btn:hover {
+  background: #e29578;
   color: #fff;
 }
-
-.profile-username {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #006d77;
-}
-
-.profile-skills-row {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.profile-skills-card {
-  background: #83c5be;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 1rem 1.5rem 1.2rem 1.5rem;
-  min-width: 260px;
-  flex: 1;
-}
-.profile-skills-title {
+.vsp-profile-about-title {
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 0.7rem;
   color: #006d77;
+  margin-bottom: 0.3rem;
+  align-self: flex-start;
 }
-.profile-skills-list {
-  display: flex;
-  gap: 1.1rem;
-  flex-wrap: wrap;
-}
-.profile-skill-pill {
-  display: inline-block;
-  width: 60px;
-  height: 28px;
-  background: #ffddd2;
-  border-radius: 20px;
-  margin-bottom: 0.5rem;
-  border: 1.5px solid #e29578;
+.vsp-profile-about {
+  color: #222;
+  font-size: 1rem;
+  text-align: left;
+  margin-bottom: 0.2rem;
+  align-self: flex-start;
 }
 
-.profile-rating-card {
-  background: #83c5be;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 1rem 1.5rem 1.2rem 1.5rem;
-  margin-top: 1.5rem;
-}
-.profile-rating-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.7rem;
-  color: #006d77;
-}
-.profile-rating-stars {
-  font-size: 2rem;
-  color: #ffd600;
-  letter-spacing: 0.2rem;
-}
-.profile-rating-stars .star {
-  color: #bdbdbd;
-}
-.profile-rating-stars .star.filled {
-  color: #ffd600;
-}
-
-.fade-in-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.fade-in-up.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.profile-header-row {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2.5rem;
-  justify-content: flex-start;
-  width: 100%;
-}
-.profile-picture {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #83c5be;
-  background: #edf6f9;
-}
-.profile-header-content {
+/* Right Main Section */
+.vsp-skills-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 2.5rem;
 }
-.profile-username {
-  margin: 0;
+.vsp-skills-group {
+  margin-bottom: 0.5rem;
 }
-.profile-request-btn {
-  margin-bottom: 0;
-  margin-left: auto;
+.vsp-skills-header {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #006d77;
+  margin-bottom: 1.1rem;
+  border-bottom: 2px solid #83c5be;
+  padding-bottom: 0.2rem;
+  letter-spacing: 0.01em;
 }
-@media (max-width: 700px) {
-  .profile-header-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.7rem;
-  }
-  .profile-request-btn {
-    margin-left: 0;
-    margin-top: 1rem;
-  }
+.vsp-skills-cards-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.vsp-skill-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 1.2rem 1.5rem 1.2rem 1.5rem;
+  min-width: 260px;
+  max-width: 320px;
+  flex: 1 1 260px;
+  border: 2px solid #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+.vsp-skill-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #006d77;
+  margin-bottom: 0.3rem;
+}
+.vsp-skill-proficiency {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.vsp-skill-proficiency-offer {
+  color: #e29578;
+}
+.vsp-skill-proficiency-want {
+  color: #e29578;
+}
+.vsp-skill-card-want {
+  border: 2px dashed #e29578;
+  background: #fff7f0;
+}
+.vsp-skill-desc {
+  color: #222;
+  font-size: 1rem;
 }
 
-@media (max-width: 900px) {
-  .profile-main {
-    padding: 1rem 0.5rem 1.5rem 0.5rem;
-  }
-  .profile-skills-row {
+/* Responsive */
+@media (max-width: 1100px) {
+  .vsp-main-content {
     flex-direction: column;
-    gap: 1.2rem;
+    align-items: stretch;
+    gap: 1.5rem;
   }
-  .profile-navbar {
+  .vsp-profile-card {
+    max-width: 100%;
+    min-width: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+@media (max-width: 700px) {
+  .vsp-main-content {
+    padding: 0 0.5rem;
+  }
+  .vsp-navbar {
     flex-direction: column;
     gap: 0.7rem;
     align-items: flex-start;
     padding: 1rem 0.5rem 1rem 0.5rem;
   }
-}
-
-.profile-skills-card, .profile-rating-card {
-  border: 2px solid #006d77;
-  background: #fff;
-}
-
-.profile-skills-title, .profile-rating-title {
-  color: #222 !important;
-}
-
-.profile-skills-list-bullets {
-  color: #222 !important;
+  .vsp-skills-cards-row {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
 }

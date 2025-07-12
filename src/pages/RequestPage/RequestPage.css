@@ -1,83 +1,65 @@
+/* Root and layout */
 .requestpage-container {
   min-height: 100vh;
-  background: #ffddd2;
+  background: #eaf4f7;
   font-family: 'Raleway', sans-serif;
-}
-
-.navbar-logo-img {
-  height: 48px;
-  width: auto;
-  margin-right: 1.5rem;
-  border-radius: 8px;
-  object-fit: contain;
-  background: #fff;
 }
 
 .request-navbar {
   width: 100%;
-  background: #006d77;
+  background: #fff;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0.7rem 2rem 0.7rem 1.2rem;
+  justify-content: space-between;
+  padding: 0.7rem 2.5rem;
   box-sizing: border-box;
-  border: none;
-  border-radius: 0 0 0 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  gap: 2rem;
+  border-bottom: 1.5px solid #e6e6e6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
-
-.request-logo {
+.request-navbar-left {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.7rem;
 }
-.request-logo-circle {
-  width: 54px;
-  height: 54px;
+.request-navbar-logo {
+  height: 38px;
+  width: 38px;
+  border-radius: 8px;
+  object-fit: contain;
   background: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #006d77;
-  margin-top: 0.2rem;
+  margin-right: 0.7rem;
 }
-.request-logo-text {
-  font-size: 2rem;
+.request-navbar-title {
+  font-size: 1.5rem;
   color: #006d77;
   font-weight: 800;
   font-family: 'Raleway', sans-serif;
 }
-.request-logo-label {
-  font-size: 0.8rem;
-  color: #fff;
-  font-family: 'Raleway', sans-serif;
-  line-height: 1.1;
-  margin-top: 0.2rem;
-}
-
-.request-navlinks {
+.request-navbar-links {
   display: flex;
   gap: 2.2rem;
 }
-.request-navlinks a {
-  color: #edf6f9;
-  text-decoration: underline;
-  font-size: 1.15rem;
+.request-navbar-links a {
+  color: #006d77;
+  text-decoration: none;
+  font-size: 1.1rem;
   font-family: 'Raleway', sans-serif;
-  font-weight: 400;
-  transition: color 0.2s;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
 }
-.request-navlinks a:hover {
-  color: #e29578;
+.request-navbar-links a.active, .request-navbar-links a:hover {
+  background: #83c5be33;
+  color: #004f56;
 }
-
-.request-avatar-placeholder {
-  width: 70px;
-  height: 48px;
-  background: #83c5be;
-  border-radius: 12px;
+.request-navbar-avatar img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #83c5be;
+  background: #fff;
 }
 
 .request-main {
@@ -86,39 +68,47 @@
   align-items: center;
   margin-top: 2.5rem;
   min-height: 80vh;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-.request-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.request-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #158083;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.request-subtitle {
+  color: #6b7a86;
+  font-size: 1.15rem;
+  margin-bottom: 2.2rem;
+  text-align: center;
+}
+
+.request-form-card {
   background: #fff;
-  width: 100%;
-  max-width: 420px;
-  gap: 1.7rem;
-  border-radius: 18px;
+  border-radius: 16px;
   box-shadow: 0 6px 32px rgba(0,0,0,0.10);
   padding: 2.5rem 2rem 2rem 2rem;
-  animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-  margin-bottom: 3rem;
-}
-
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(40px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.request-label {
-  font-size: 1.18rem;
-  font-weight: 700;
-  color: #006d77;
-  margin-bottom: 0.2rem;
-  text-align: left;
+  max-width: 540px;
   width: 100%;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
 }
-
-.request-select {
+.request-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.request-form-group label {
+  font-size: 1.13rem;
+  font-weight: 600;
+  color: #006d77;
+  margin-bottom: 0.1rem;
+}
+.request-form-group select {
   width: 100%;
   padding: 0.9rem 1.2rem;
   border-radius: 8px;
@@ -128,41 +118,61 @@
   font-size: 1.08rem;
   font-family: 'Raleway', sans-serif;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  margin-bottom: 0.7rem;
   appearance: none;
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
 }
-.request-select:focus {
+.request-form-group select:focus {
   border: 1.5px solid #006d77;
   box-shadow: 0 0 0 2px #83c5be44;
 }
 
-.request-textarea {
+.request-summary-card {
+  background: #ffd8c2;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 2rem 2.2rem 1.5rem 2.2rem;
+  max-width: 540px;
   width: 100%;
-  padding: 1.2rem 1rem;
-  border-radius: 8px;
-  border: 1.5px solid #83c5be;
-  background: #edf6f9;
-  color: #222;
-  font-size: 1.08rem;
-  font-family: 'Raleway', sans-serif;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  margin-bottom: 0.7rem;
-  resize: none;
-  transition: border 0.2s, box-shadow 0.2s;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
 }
-.request-textarea:focus {
-  border: 1.5px solid #006d77;
-  box-shadow: 0 0 0 2px #83c5be44;
+.request-summary-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #158083;
+  margin-bottom: 1.1rem;
+}
+.request-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f7bfa2;
+  font-size: 1.08rem;
+}
+.request-summary-row:last-child {
+  border-bottom: none;
+}
+.request-summary-label {
+  color: #158083;
+  font-weight: 600;
+}
+.request-summary-value {
+  color: #222;
+  font-weight: 500;
+}
+.request-summary-placeholder {
+  color: #bbb;
+  font-style: italic;
 }
 
 .request-submit-btn {
-  background: #83c5be;
-  color: #222;
+  background: #e29578;
+  color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 0.8rem 2.5rem;
+  padding: 1.1rem 2.5rem;
   font-size: 1.18rem;
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
@@ -170,14 +180,21 @@
   margin-top: 1.2rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   transition: background 0.2s, color 0.2s;
+  display: block;
 }
 .request-submit-btn:hover, .request-submit-btn:focus {
   background: #006d77;
   color: #fff;
 }
 
-@media (max-width: 600px) {
-  .request-form {
+@media (max-width: 700px) {
+  .request-navbar {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: flex-start;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
+  .request-form-card, .request-summary-card {
     padding: 1.2rem 0.5rem 1.2rem 0.5rem;
     max-width: 98vw;
   }
