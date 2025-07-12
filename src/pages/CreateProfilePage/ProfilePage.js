@@ -3,7 +3,7 @@ import './ProfilePage.css';
 import logo from '../../assets/logo.png';
 import profileImg from '../../assets/profile.png';
 
-const ProfilePage = () => {
+const ProfilePage = ({ onHomeClick }) => {
   return (
     <div className="profile-bg">
       <header className="profile-header">
@@ -14,7 +14,7 @@ const ProfilePage = () => {
           <span className="save-btn">SAVE</span>
           <span className="discard-btn">DISCARD</span>
           <a href="#" className="nav-link">Swap Request</a>
-          <a href="#" className="nav-link">Home</a>
+          <a href="#" className="nav-link" onClick={e => { e.preventDefault(); onHomeClick && onHomeClick(); }}>Home</a>
           <div className="profile-avatar-placeholder"></div>
         </div>
       </header>

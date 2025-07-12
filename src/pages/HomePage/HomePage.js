@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
-import { useNavigate } from 'react-router-dom';
+// Removed useNavigate and react-router-dom import for now
 
 function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
   const [users, setUsers] = useState([]);
@@ -8,7 +8,7 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
   const [sort, setSort] = useState('');
   const [page, setPage] = useState(1);
   const usersPerPage = 5;
-  const navigate = useNavigate();
+  // Removed useNavigate for now
 
   useEffect(() => {
     // Fetch users from backend
@@ -45,17 +45,13 @@ function HomePage({ onLoginClick, isLoggedIn, onLogout, onRequestUser }) {
   };
 
   return (
-    <div className="ss-home-root">
-      {/* Navbar */}
-      <header className="ss-navbar">
-        <div className="ss-navbar-left">
-          <img src="/logo.jpg" alt="SkillSwap Logo" className="ss-navbar-logo" />
-          <span className="ss-navbar-title">SkillSwap</span>
-        </div>
-        <nav className="ss-navbar-links">
-          <a href="#browse">Browse</a>
-          <a href="#how">How it Works</a>
+    <div className="homepage-container">
+      <div className="homepage-navbar-wrapper">
+        <img src="/logo.jpg" alt="Logo" className="navbar-logo-img" />
+        <nav className="homepage-navbar">
+          <a href="#home">Home</a>
           <a href="#about">About Us</a>
+          <a href="#contact">Contact Us</a>
         </nav>
         <div className="ss-navbar-actions">
           {!isLoggedIn && <button className="ss-login-btn" onClick={() => navigate('/login')}>Log In</button>}
