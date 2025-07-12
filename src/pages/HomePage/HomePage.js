@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
+import { useNavigate } from 'react-router-dom';
+// Removed useNavigate and react-router-dom import for now
 
 function HomePage() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('');
@@ -10,7 +13,7 @@ function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const usersPerPage = 5;
-  const navigate = useNavigate();
+  // Removed useNavigate for now
 
   useEffect(() => {
     // Fetch users from backend
@@ -141,24 +144,24 @@ function HomePage() {
           <a href="#about">About Us</a>
           <a href="#contact">Contact Us</a>
         </nav>
-        <div className="ss-navbar-actions">
-          {!isLoggedIn ? (
-            <>
-              <button className="ss-login-btn" onClick={() => navigate('/login')}>Log In</button>
-              <button className="ss-signup-btn" onClick={() => navigate('/signup')}>Sign Up</button>
-            </>
-          ) : (
-            <>
-              {user && user.name && <div className="ss-navbar-username">{user.name}</div>}
+        {!isLoggedIn ? (
+          <div className="ss-navbar-actions">
+            <button className="ss-login-btn" onClick={() => navigate('/login')}>Log In</button>
+            <button className="ss-signup-btn" onClick={() => navigate('/signup', { state: { isSignup: true } })}>Sign Up</button>
+          </div>
+        ) : (
+          <>
+            {user && user.name && <div className="ss-navbar-username">{user.name}</div>}
+            <div className="ss-navbar-actions-right">
               <button className="ss-logout-btn" onClick={handleLogout}>Logout</button>
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Hero Section */}
       <section className="ss-hero">
-        <h1 className="ss-hero-title">Unlock Your Potential, <br />Share Your Skills</h1>
+        <h1 className="ss-hero-title">Unlock Your Potential,<br />Share Your Skills</h1>
         <p className="ss-hero-subtitle">
           Join our community of learners and experts. Exchange your skills with others and discover new passions.
         </p>
@@ -188,13 +191,7 @@ function HomePage() {
             <div
               className="ss-featured-card"
               key={user._id}
-              onClick={() => {
-                if (isLoggedIn) {
-                  navigate('/view-profile');
-                } else {
-                  navigate('/login');
-                }
-              }}
+              onClick={() => navigate('/view-profile')}
               style={{ cursor: 'pointer' }}
             >
               <div className="ss-featured-card-img">
@@ -208,11 +205,7 @@ function HomePage() {
                   className="ss-featured-learn-btn"
                   onClick={e => {
                     e.stopPropagation();
-                    if (isLoggedIn) {
-                      navigate('/request');
-                    } else {
-                      navigate('/login');
-                    }
+                    navigate('/request');
                   }}
                 >
                   Request
@@ -261,6 +254,24 @@ function HomePage() {
         </div>
         <div className="ss-footer-copy">© 2024 SkillSwap. All rights reserved.</div>
       </footer>
+      
+      {/* Debug content to test scrolling */}
+      <div style={{ 
+        height: '1000px', 
+        background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '2rem',
+        color: 'white',
+        textAlign: 'center'
+      }}>
+        <div>
+          <h2>Scroll Test Content</h2>
+          <p>If you can see this, scrolling should work!</p>
+          <p>This div is 1000px tall to test scrolling.</p>
+        </div>
+      </div>
     </div>
   );
 }
