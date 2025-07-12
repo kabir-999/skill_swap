@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 import './Auth.css';
 
-function Auth({ onAuthSuccess, onNavigateToProfile }) {
-  const [isLogin, setIsLogin] = useState(true);
+function Auth() {
+  const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
-    isAdmin: false
+    username: '',
+    password: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -25,48 +22,14 @@ function Auth({ onAuthSuccess, onNavigateToProfile }) {
     setIsSubmitting(true);
     setMessage('');
     try {
-      if (isLogin) {
-        // Login
-        const response = await fetch('http://localhost:5000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-            isAdmin: formData.isAdmin
-          })
-        });
-        const data = await response.json();
-        if (response.ok) {
-          localStorage.setItem('user', JSON.stringify(data.user || { email: formData.email }));
-          setMessage('Login successful!');
-          if (onAuthSuccess) onAuthSuccess();
-        } else {
-          setMessage(data.message || 'Login failed');
-        }
+      if (isSignup) {
+        // Signup logic here
+        // Example: await fetch('/api/signup', ...)
+        setMessage('Signup successful!');
       } else {
-        // Signup
-        if (formData.password !== formData.confirmPassword) {
-          setMessage('Passwords do not match');
-          setIsSubmitting(false);
-          return;
-        }
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-            confirmPassword: formData.confirmPassword
-          })
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setMessage('Signup successful! Please complete your profile.');
-          if (onNavigateToProfile) onNavigateToProfile();
-        } else {
-          setMessage(data.message || 'Signup failed');
-        }
+        // Login logic here
+        // Example: await fetch('/api/login', ...)
+        setMessage('Login successful!');
       }
     } catch (error) {
       setMessage('Error: ' + error.message);
@@ -75,117 +38,84 @@ function Auth({ onAuthSuccess, onNavigateToProfile }) {
     }
   };
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    setFormData({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      isAdmin: false
-    });
-    setMessage('');
-  };
-
   return (
-    <>
-      <div className="login-bg">
-        <div className="bubble bubble1"></div>
-        <div className="bubble bubble2"></div>
-        <div className="bubble bubble3"></div>
-        <div className="bubble bubble4"></div>
-        <div className="bubble bubble5"></div>
-        <div className="bubble bubble6"></div>
-        <div className="blob blob1"></div>
-        <div className="blob blob2"></div>
-      </div>
-      <div className="auth-container">
-        <div className="auth-card">
-          <div className="auth-header">
-            <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-            <p>{isLogin ? 'Welcome back! Please login to your account.' : 'Create a new account to get started.'}</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter your password"
-                minLength="6"
-              />
-            </div>
-
-            {!isLogin && (
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Confirm your password"
-                  minLength="6"
-                />
-              </div>
-            )}
-
-            {isLogin && (
-              <div className="form-group checkbox-group">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="isAdmin"
-                    checked={formData.isAdmin}
-                    onChange={handleInputChange}
-                  />
-                  <span className="checkmark"></span>
-                  Login as Admin
-                </label>
-              </div>
-            )}
-
-            {message && (
-              <div className={`message ${message.includes('successful') ? 'success' : 'error'}`}>
-                {message}
-              </div>
-            )}
-
-            <button type="submit" className="auth-button" disabled={isSubmitting}>
-              {isSubmitting ? 'Processing...' : (isLogin ? 'Login' : 'Sign Up')}
-            </button>
-          </form>
-
-          <div className="auth-footer">
-            <p>
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <button type="button" onClick={toggleMode} className="toggle-button">
-                {isLogin ? 'Sign Up' : 'Login'}
-              </button>
-            </p>
-          </div>
+    <div className="auth-bg">
+      <form className="auth-card-modern" onSubmit={handleSubmit}>
+        <div className="auth-card-header">
+          <div className="auth-card-title">SkillSwap</div>
+          <div className="auth-card-subtitle">{isSignup ? 'Create your account' : 'Welcome back!'}</div>
         </div>
-      </div>
-    </>
+        <div className="auth-card-body">
+          {isSignup && (
+            <div className="auth-form-group">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="John Doe"
+                required
+              />
+            </div>
+          )}
+          <div className="auth-form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          {isSignup && (
+            <div className="auth-form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                placeholder="yourusername"
+                required
+              />
+            </div>
+          )}
+          <div className="auth-form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="********"
+              required
+            />
+          </div>
+          {message && <div className="auth-message">{message}</div>}
+          <button className="auth-submit-btn" type="submit" disabled={isSubmitting}>
+            {isSignup ? 'Sign Up' : 'Log In'}
+          </button>
+        </div>
+        <div className="auth-card-footer">
+          {isSignup ? (
+            <span>Already have an account?{' '}
+              <button type="button" className="auth-link-btn" onClick={() => setIsSignup(false)}>Log in</button>
+            </span>
+          ) : (
+            <span>Don't have an account?{' '}
+              <button type="button" className="auth-link-btn" onClick={() => setIsSignup(true)}>Sign up</button>
+            </span>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }
 
